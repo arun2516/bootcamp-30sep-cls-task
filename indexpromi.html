@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,th,td{
+    border: 3px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+thead{
+    position: sticky;
+    top: 0;
+    
+    background-color: crimson;
+}
+table{
+    width: 100%;
+    background-color: blanchedalmond;
+}
+p{
+    text-align: center;
+    font-size: 40px;
+    text-transform: capitalize;
+}
+    </style>
+    
+</head>
+<body>
+    <input class="inp" type="text" id="inp">
+    <button class="but" type="text" onclick="foo()">Clickme</button>
+    <p id="country"></p>
+
+    <script>
+    var table = document.createElement("table");
+var thead = document.createElement("thead");
+var tbody = document.createElement("tbody");
+var tr = document.createElement("tr");
+var th5 = document.createElement("th");
+th5.innerHTML="Date";
+var th1 = document.createElement("th");
+th1.innerHTML="Confirmed Cases";
+var th2 = document.createElement("th");
+th2.innerHTML="Active Cases"
+var th3 = document.createElement("th");
+th3.innerHTML="Recovered Cases"
+var th4 = document.createElement("th");
+th4.innerHTML="Deaths"
+
+tr.append(th5,th1,th2,th3,th4);
+thead.append(tr);
+table.append(thead);
+table.append(tbody);
+document.body.append(table);
+
+
+
+function foo(){
+    let cc = document.getElementById("inp").value;
+    let display = document.getElementById("country").innerHTML=cc;
+    async function foo1(){
+        let data = await fetch(`https://api.covid19api.com/dayone/country/${cc}`);
+        let result = await data.json();
+        console.log(result);
+        for(var i in result){
+            console.log(`active cases:${result[i].Active}`);
+            var tr = document.createElement("tr");
+             var td1 = document.createElement("td");
+             td1.innerHTML=result[i].Confirmed;
+             var td2 = document.createElement("td");
+             td2.innerHTML=result[i].Active;
+             var td3 = document.createElement("td");
+            td3.innerHTML=result[i].Recovered;
+            var td4 = document.createElement("td");
+            td4.innerHTML=result[i].Deaths;
+            var td5 = document.createElement("td");
+            td5.innerHTML=result[i].Date;
+            tr.append(td5,td1,td2,td3,td4);
+            tbody.append(tr);
+        }
+    }
+   foo1();
+}
+    </script>
+</body>
+</html>
